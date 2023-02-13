@@ -1,0 +1,81 @@
+using System;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using VMS.TPS.Common.Model.API;
+using VMS.TPS.Common.Model.Types;
+
+[assembly: AssemblyVersion("1.0.0.1")]
+
+namespace VMS.TPS
+{
+    public class Script
+    {
+        public Script()
+        {
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public void Execute(ScriptContext context /*, System.Windows.Window window, ScriptEnvironment environment*/)
+        {
+            // TODO : Add here the code that is called when the script is launched from Eclipse.
+            //get patient info
+            Patient patient = context.Patient;
+            string name = patient.Name;
+            string dob = ((DateTime)patient.DateOfBirth).ToString("dd/MM/yyyy");
+            string hospital = patient.Hospital.Id;
+            string gender = patient.Sex;
+            //save planInfo to list.
+            List<PlanInfo> patientInfos = new List<PlanInfo>();
+            patientInfos.Add(new PlanInfo("Name", name));
+            patientInfos.Add(new PlanInfo("Date Of Birth", dob));
+            patientInfos.Add(new PlanInfo("Hospital", hospital));
+            patientInfos.Add(new PlanInfo("Sex", gender));
+
+            //plan info
+            PlanSetup plan = context.PlanSetup;
+            string planId = plan.Id;
+            string courseId = plan.Course.Id;
+            string totalDose = plan.TotalDose.ToString();
+            string numFractions = plan.NumberOfFractions.ToString();
+            string imageId = plan.StructureSet.Image.Id;
+            string structureSetId = plan.StructureSet.Id;
+            //add plan info to list
+            List<PlanInfo> planInfos = new List<PlanInfo>();
+            planInfos.Add(new PlanInfo("Plan Id", planId));
+            planInfos.Add(new PlanInfo("Course Id", courseId));
+            planInfos.Add(new PlanInfo("Total Dose", totalDose));
+            planInfos.Add(new PlanInfo("Num. Fx", numFractions));
+            planInfos.Add(new PlanInfo("Image Id", imageId));
+            planInfos.Add(new PlanInfo("Structure Set Id", structureSetId));
+
+            //add all properties and values to the messageBox
+            string message = "";
+            message += "Patient Info\n";
+            foreach(var info in patientInfos)
+            {
+                message += String.Format("{0}: {1}\n", info.Property, info.Value);
+            }
+            message += "\nPlan Info\n";
+            foreach(var info in planInfos)
+            {
+                message += String.Format("{0}: {1}\n", info.Property, info.Value);
+            }
+            MessageBox.Show(message);
+        }
+    }
+    public class PlanInfo
+    {
+        public string Property { get; set; }
+        public string Value { get; set; }
+        public PlanInfo(string prop, string val)
+        {
+            Property = prop;
+            Value = val;
+        }
+
+    }
+}

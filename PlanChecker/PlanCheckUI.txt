@@ -1,0 +1,29 @@
+ <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="SBRTChecks_SP"/>
+            <StackPanel Name="PlanChecks_SP"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ComboBox Name="Structures_CB" Margin="5"/>
+            <TextBox Name="Metrics_TB" Grid.Column="1" Margin="5"/>
+            <TextBox Name="Tolerance_TB" Grid.Column="2" Margin="5"/>
+            <Button Name ="AddMetric_BTN" Grid.Column="3" Margin="5" Content="Add Metric"/>
+            <StackPanel Name="Metrics_SP" Grid.ColumnSpan="4"/>
+        </Grid>
